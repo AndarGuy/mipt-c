@@ -11,7 +11,7 @@
 #define TASK "4"
 
 #define MIN(a, b) a > b ? b : a
-#define MAX(a, b) -MIN(-a, -b);
+#define MAX(a, b) a > b ? a : b
 
 int **create(int n, int m) {
     int **pointer;
