@@ -11,6 +11,20 @@
 #define MIN(a, b) a > b ? b : a
 #define MAX(a, b) a > b ? a : b
 
+#define lprint(list) list_print(list, "%s ", to_string)
+
+ListData ld(int i) {
+    int *a = (int*) malloc(sizeof(int));
+    *a = i;
+    return (ListData) {a, sizeof(int)};
+}
+
+char *to_string(ListData ld) {
+    char *s = (char*) malloc(100);
+    sprintf(s, "%d", *((int*) ld.data));
+    return s;
+}
+
 int main() {
     List *list = NULL;
 
@@ -20,7 +34,7 @@ int main() {
     int i, temp;
     for (i = 0; i < N; i++) {
         scanf("%d", &temp);
-        list_push(&list, temp);
+        list_push(&list, ld(temp));
     }
 
     List *result = NULL;
@@ -35,7 +49,7 @@ int main() {
         }
     }
 
-    list_print(result);
+    lprint(result);
 
     return 0;
 }

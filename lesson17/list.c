@@ -44,17 +44,6 @@ int list_size(List *list) {
     return i;
 }
 
-void list_numbers_print(List *head) {
-    if (head == NULL) printf("Empty!");
-	List *current;
-	current = head;
-	while(current != NULL) {
-        printf("%d", *((char (*)[current->data.size]) current->data.data));
-        current = current->next;
-    }
-    printf("\n");
-}
-
 void list_push(List **_list, ListData data) {
     if (*_list == NULL) {
         *_list = list_create(data, NULL);
@@ -102,6 +91,7 @@ void list_clear(List **list) {
         return;
     }
     list_clear(&(*list)->next);
+    free((*list)->data.data);
     free(*list);
     *list = NULL;
 }
@@ -124,6 +114,7 @@ void list_pop(List **_list) {
 
     int i;
     for (i = 0; i < size - 2; i++) list = list->next;
+    free(list->next->data.data);
     free(list->next);
     list->next = NULL;
 }
@@ -137,6 +128,7 @@ void list_remove(List **_list, int position) {
     }
 
     if (size == 1) {
+        free((*_list)->data.data);
         free(*_list);
         *_list = NULL;
         return;
@@ -147,11 +139,13 @@ void list_remove(List **_list, int position) {
     if (position == size - 1) {
         int i;
         for (i = 0; i < position; i++) list = list->next;
+        free(list->next->data.data);
         free(list->next);
         list->next = NULL;
     }
     if (position == 0) {
         *_list = list->next;
+        free(list->data.data);
         free(list);
         return;
     }
@@ -160,26 +154,54 @@ void list_remove(List **_list, int position) {
     for (i = 0; i < position - 1; i++) list = list->next;
     List *temp = list->next;
     list->next = temp->next;
+    free(temp->data.data);
     free(temp);
 }
 
 
-void list_save_to_file(List *list, char *_file) {
+void list_save_to_file(List *list, char *_file, char *format, char* (*to_string)(ListData)) {
     FILE *file = fopen(_file, "w");
 	while(list != NULL) {
-        fprintf(file, "%d ", list->data);
+        fprintf(file, format, to_string(list->data));
         list = list->next;
     }
 }
 
-int* list_to_array(List *list) {
-    int N = list_size(list);
-    int *array = (int*) malloc(N * sizeof(int));
-    int i = 0;
-    while(list != NULL) {
-        *(array + i) = list->data;
-        list = list->next;
-        i++;
+void list_print(List *head, char *format, char* (*to_string)(ListData)) {
+    if (head == NULL) printf("Empty!");
+	List *current;
+	current = head;
+	while(current != NULL) {
+        printf(format, to_string(current->data));
+        current = current->next;
     }
-    return array;
+    printf("\n");
+}
+
+void list_bubble_sort(List *head, int (*comparator)(ListData, ListData)) {
+    int size = list_size(head);
+    if (size < 2) return;
+
+    List *current, *previous;
+    int flag = 0;
+    while (1) {
+        flag = 1;
+        current = head->next;
+        previous = head;
+        while (current != NULL) {
+            // if (!list_data_compatible(current->data, previous->data)) {
+            //     printf("Can't sort data with different type sizes!\n");
+            //     return;
+            // }
+            if (comparator(current->data, previous->data) < 0) {
+                ListData temp = current->data;
+                current->data = previous->data;
+                previous->data = temp;
+                flag = 0;
+            }
+            previous = current;
+            current = current->next;
+        }
+        if (flag) break;
+    }
 }

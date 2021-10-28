@@ -52,8 +52,10 @@ int list_size(List *list);
  * @brief The function prints list values.
  * 
  * @param head Pointer to list head.
+ * @param format Format of printing value.
+ * @param to_string Function that transforms ListData to string.
  */
-void list_print(List *head);
+void list_print(List *head, char *format, char* (*to_string)(ListData));
 
 /**
  * @brief The function adds element to end of list.
@@ -99,13 +101,15 @@ void list_remove(List **_list, int position);
  * 
  * @param list Pointer of list head.
  * @param _file Name of file to save in.
+ * @param format Format of saving value.
+ * @param to_string Function that transforms ListData to string.
  */
-void list_save_to_file(List *list, char *_file);
+void list_save_to_file(List *list, char *_file, char *format, char* (*to_string)(ListData));
 
 /**
- * @brief The function transforms the list to an array.
+ * @brief Bubble sorting function of list.
  * 
- * @param list Pointer of list head.
- * @return int* Pointer of the first element of array.
+ * @param head Pointer of list head.
+ * @param comparator Function to compare two ListData elements.
  */
-ListData *list_to_array(List *list);
+void list_bubble_sort(List *head, int (*comparator)(ListData, ListData));
