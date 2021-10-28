@@ -2,17 +2,33 @@
 #include <stdlib.h>
 #include "list.h"
 
-List *list_create(int data, List *next) {
+int list_data_compatible(ListData a, ListData b) {
+	return a.size == b.size ? 1 : 0;
+}
+
+int list_data_is_equal(ListData a, ListData b) {
+    if (!list_data_compatible(a, b)) {
+        printf("Comparing incompariable data!\n");
+        return 0;
+    }
+
+    int i;
+    for (i = 0; i < a.size; i++) if (*((char*) a.data) != *((char*) b.data)) return 0;
+
+    return 1;
+}
+
+List *list_create(ListData data, List *next) {
     List *inserted = (List*) malloc(sizeof(List));
     inserted->data = data;
     inserted->next = next;
     return inserted;
 }
 
-int list_index(List *list, int data) {
+int list_index(List *list, ListData data) {
     int i = 0;
     while (list != NULL) {
-        if (list->data == data) return i;
+        if (list_data_is_equal(list->data, data)) return i;
         list = list->next;
         i++;
     }
@@ -28,18 +44,18 @@ int list_size(List *list) {
     return i;
 }
 
-void list_print(List *head) {
+void list_numbers_print(List *head) {
     if (head == NULL) printf("Empty!");
 	List *current;
 	current = head;
 	while(current != NULL) {
-        printf("%d ", current->data);
+        printf("%d", *((char (*)[current->data.size]) current->data.data));
         current = current->next;
     }
     printf("\n");
 }
 
-void list_push(List **_list, int data) {
+void list_push(List **_list, ListData data) {
     if (*_list == NULL) {
         *_list = list_create(data, NULL);
         return;
@@ -54,7 +70,7 @@ void list_push(List **_list, int data) {
     list->next = list_create(data, NULL);
 }
 
-void list_insert(List **_list, int position, int data) {
+void list_insert(List **_list, int position, ListData data) {
     int size = list_size(*_list);
 
     if (position > size || position < 0) {

@@ -1,31 +1,44 @@
 /**
+ * @brief Declaration of custom data is used for list.
+ * 
+ */
+typedef struct listdata {
+	void *data;
+	size_t size;
+} ListData;
+
+/**
  * @brief Declaration of list chain element.
  * 
  */
 typedef struct list {
-	int data;
+	ListData data;
 	struct list *next;
 } List;
+
+int list_data_compatible(ListData a, ListData b);
+
+int list_data_is_equal(ListData a, ListData b);
 
 /**
  * @brief The function creates a chain of list.
  * 
- * @param data Value to store in chain.
+ * @param data Data to store in chain.
  * @param next Pointer to the next chain.
  * 
  * @return List* Pointer to created chain.
  */
-List *list_create(int data, List *next);
+List *list_create(ListData data, List *next);
 
 /**
  * @brief The function provides an index of known element.
  * 
  * @param list Pointer to list head.
- * @param data Value to get index.
+ * @param data Data to search for.
  * 
  * @return int The function returns the index of element. If element is not found, it will return -1.
  */
-int list_index(List *list, int data);
+int list_index(List *list, ListData data);
 
 /**
  * @brief The function counts size of list.
@@ -48,7 +61,7 @@ void list_print(List *head);
  * @param _list Pointer of pointer of list head.
  * @param data Value which is required to be added.
  */
-void list_push(List **_list, int data);
+void list_push(List **_list, ListData data);
 
 /**
  * @brief The function inserts a value to the list.
@@ -57,7 +70,7 @@ void list_push(List **_list, int data);
  * @param position Position in list to insert the value.
  * @param data Value to insert.
  */
-void list_insert(List **_list, int position, int data);
+void list_insert(List **_list, int position, ListData data);
 
 /**
  * @brief The function clears the list.
@@ -95,4 +108,4 @@ void list_save_to_file(List *list, char *_file);
  * @param list Pointer of list head.
  * @return int* Pointer of the first element of array.
  */
-int* list_to_array(List *list);
+ListData *list_to_array(List *list);
