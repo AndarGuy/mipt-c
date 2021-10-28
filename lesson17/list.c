@@ -187,7 +187,7 @@ void list_print(List *head, char *format, char* (*to_string)(ListData)) {
 
 List *list_clone(List *src) {
     if (src == NULL) return NULL;
-    return list_create(list_data_clone(src->data), copy(src->next));
+    return list_create(list_data_clone(src->data), list_clone(src->next));
 }
 
 void list_bubble_sort(List *head, int (*comparator)(ListData, ListData)) {
