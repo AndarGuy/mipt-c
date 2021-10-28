@@ -113,3 +113,19 @@ void list_save_to_file(List *list, char *_file, char *format, char* (*to_string)
  * @param comparator Function to compare two ListData elements.
  */
 void list_bubble_sort(List *head, int (*comparator)(ListData, ListData));
+
+/**
+ * @brief Clone list
+ * 
+ * @param src Source to copy from.
+ * @return ListData Cloned list.
+ */
+List *list_clone(List *src);
+
+/**
+ * @brief Clone list data.
+ * 
+ * @param src Source to copy from.
+ * @return ListData Cloned data.
+ */
+ListData list_data_clone(ListData src);

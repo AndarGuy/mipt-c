@@ -18,6 +18,13 @@ int list_data_is_equal(ListData a, ListData b) {
     return 1;
 }
 
+ListData list_data_clone(ListData src) {
+    char *a = malloc(src.size);
+    int i;
+    for (i = 0; i < src.size; i++) *(a + i) = *((char*) src.data + i);
+    return (ListData) {(void *) a, src.size};
+}
+
 List *list_create(ListData data, List *next) {
     List *inserted = (List*) malloc(sizeof(List));
     inserted->data = data;
@@ -176,6 +183,11 @@ void list_print(List *head, char *format, char* (*to_string)(ListData)) {
         current = current->next;
     }
     printf("\n");
+}
+
+List *list_clone(List *src) {
+    if (src == NULL) return NULL;
+    return list_create(list_data_clone(src->data), copy(src->next));
 }
 
 void list_bubble_sort(List *head, int (*comparator)(ListData, ListData)) {
