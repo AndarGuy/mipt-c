@@ -2,8 +2,8 @@
 
 Stack *stack_create() {
     Stack *stack = (Stack*) malloc(sizeof(Stack));
-    stack->data = malloc(N * sizeof(StackData));
-    stack->size = N;
+    stack->data = malloc(STACK_SIZE * sizeof(StackData));
+    stack->size = STACK_SIZE;
     stack->top = -1;
     return stack;
 }

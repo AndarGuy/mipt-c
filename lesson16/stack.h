@@ -5,7 +5,7 @@
  * @brief Default stack size.
  * 
  */
-#define N 10
+#define STACK_SIZE 10
 
 /**
  * @brief Declaration of custom data is used for stack.
