@@ -1,6 +1,8 @@
 #ifndef LAB_H
+#define LAB_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
  * @brief Для удобства опишем структуру, состоящую из трех полей - градусы, минуты и секунды.
@@ -25,7 +27,7 @@ struct position {
  * @brief Структура состоит из трех полей – координат вершин треугольника.
  * 
  */
-struct  fig { 
+struct fig {
     struct  position apex1;
     struct  position apex2;
     struct  position apex3;
