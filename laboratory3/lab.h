@@ -3,35 +3,43 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
+#include <string.h>
 
 /**
  * @brief Для удобства опишем структуру, состоящую из трех полей - градусы, минуты и секунды.
  * 
  */
-struct coordinates {
+typedef struct coordinates {
     int degree;
     int minute;
     int second;
-};
+} coordinates;
 
 /**
  * @brief Структура состоит из двух полей – широта и долгота.
  * 
  */
-struct position {
+typedef struct position {
     struct coordinates lat;
     struct coordinates longitude;
-};
+} position;
 
 /**
  * @brief Структура состоит из трех полей – координат вершин треугольника.
  * 
  */
-struct fig {
-    struct  position apex1;
-    struct  position apex2;
-    struct  position apex3;
-};
+typedef struct fig {
+    struct position apex1;
+    struct position apex2;
+    struct position apex3;
+} fig;
+
+/**
+ * @brief Файл текущего ввода.
+ * 
+ */
+FILE *file;
 
 /**
  * @brief В результате работы этой функции получим массив местоположений всех N судов.
@@ -64,7 +72,7 @@ struct position input_port();
  * @param port Структура координат местоположения порта.
  * @param slopes Указатель на массив угловых коэффициентов.
  */
-void matrix_of_slopes (int N, struct position *ship, struct fig triangle, struct  position port, float (*slopes)[4]);
+void matrix_of_slopes(int N, struct position *ship, struct fig triangle, struct  position port, float (*slopes)[4]);
 
 /**
  * @brief 
@@ -73,7 +81,7 @@ void matrix_of_slopes (int N, struct position *ship, struct fig triangle, struct
  * @param slopes Указатель на массив угловых коэффициентов.
  * @param danger Указатель на массив, элементы которого указывают на наличие или отсутствие опасности.
  */
-void danger_identification (int N, float (*slopes)[4], int *danger);
+void danger_identification(int N, float (*slopes)[4], int *danger);
 
 /**
  * @brief Выдаем на печать таблицу результатов co звуковым сигналом в случае возникновения опасности.
@@ -81,6 +89,6 @@ void danger_identification (int N, float (*slopes)[4], int *danger);
  * @param N Количество судов.
  * @param danger Указатель на массив danger.
  */
-void danger_signal (int N, int *danger);
+void danger_signal(int N, int *danger);
 
 #endif
