@@ -1,31 +1,25 @@
 #include <stdio.h>
 
+float F(float a, float b, float c, float x) {
+    return a * x * x + b * x + c;
+}
+
 int main() {
-    int length;
-    scanf("%d", &length);
+    float a, b, c, start = 0, end = 10, epsilon = 0.0001;
 
-    int a[length];
-    for(int i = 0; i < length; i++) a[i] = 0;
-
-    int last = 0;
-    int simple;
-    for(int i = 2; i < length; i++) {
-        simple = 1;
-        for (int j = 0; a[j] != 0; j++) {
-            if (i % a[j] == 0) {
-                simple = 0;
-            }
-        }
-        if (simple) {
-            a[last] = i;
-            last++;
+    scanf("%f %f %f", &a, &b, &c);
+    float x = 0;
+    while (F(a, b, c, x) > epsilon) {
+        x = (start + end) / 2;
+        printf("%f\n", x);
+        if (a * (F(a, b, c, x) - F(a, b, c, x + epsilon)) > 0) {
+            start = x;
+        } else {
+            end = x;
         }
     }
-    
-    printf("result: ");
-    for (int i = 0; i < last; i++) {
-        printf("%d ", a[i]);
-    }
+
+    printf("%f", x);
 
     return 0;
 }

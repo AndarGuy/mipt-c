@@ -20,14 +20,17 @@ void input(int matrix[10][10], int height, int width) {
             scanf("%d", &matrix[i][j]);
 }
 
-void T(int matrix[10][10], int columns, int rows) {
-    int i, j, temp;
-    for (j = 0; j < rows; j++) {
-        for (i = 0; i < j; i++) {
-            temp = matrix[i][j];
-            matrix[i][j] = matrix[j][i];
-            matrix[j][i] = temp;
-        }
+void reverse_diagonals(int matrix[10][10], int columns, int rows) {
+    int i, temp;
+    for (i = 0; i < rows / 2; i++) {
+        temp = matrix[i][i];
+        matrix[i][i] = matrix[columns - i - 1][columns - i - 1];
+        matrix[columns - i - 1][columns - i - 1] = temp;
+    }
+    for (i = 0; i < rows / 2; i++) {
+        temp = matrix[i][columns - i - 1];
+        matrix[i][columns - i - 1] = matrix[columns - i - 1][i];
+        matrix[columns - i - 1][i] = temp;
     }
 }
 
@@ -37,7 +40,7 @@ int main() {
     int matrix[10][10];
     input(matrix, a, b);
 
-    T(matrix, a, b);
+    reverse_diagonals(matrix, a, b);
 
     display(matrix, a, b);
 

@@ -1,47 +1,104 @@
 /*
+Для вычисления очень больших целых чисел создали структуру Decimal.
 
+#define N 100
+struct _Decimal {
+   char a[N];   // number is a[0]*10^0 + a[1]*10^1 + ..+ a[n]*10^n
+    unsigned int n;       // наибольшая степень десяти
+};
+typedef struct _Decimal Decimal;
+
+Decimal zero = {{0}, 0};  // представление числа 0 в виде структуры
+
+Реализуйте функцию умножения большого числа a на unsigned int, результат возвращается как значение функции.
+Decimal mult_int (Decimal a, unsigned int x);
 */
 
-struct Student {
-    char initials[100];
-    int group;
-    char grade[5];
-};
-
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <ctype.h>
 
-#define TASK "5"
+#define N 100
 
-#define MIN(a, b) a > b ? b : a
-#define MAX(a, b) -MIN(-a, -b);
+#define MAX(a, b) a > b ? a : b
 
-// int comparator(const void *a, const void *b) {
-//     struct Student *word1 = (struct Student *) a;
-//     struct Student *word2 = (struct Student *) b;
+struct _Decimal
+{
+    char a[N];      // number is a[0]*10^0 + a[1]*10^1 + ..+ a[n]*10^n
+    unsigned int n; // наибольшая степень десяти
+};
+typedef struct _Decimal Decimal;
 
-//     int i, N = MIN(strlen(word1->initials), strlen(word2->initials));
-//     for (i = 0; i < N; i++) {
-//         if (word1->initials[i] < word2->initials[i]) return 0;
-//         else if (word1->initials[i] > word2->initials[i]) return 1;
-//     }
+Decimal zero = {{0}, 0};
 
-//     return strlen(word1->initials) < strlen(word2->initials) ? 0 : 1;
-// }
+void mul(Decimal *res, Decimal *a, int multiplier);
 
-int comparator(const void *a, const void *b) {
-    return strcmp(((struct Student *) a)->initials, ((struct Student *) b)->initials);
+void mul(Decimal *res, Decimal *a, int number)
+{
+
+    int i, j;
+    for (i = 0; i < N; i++)
+        res->a[i] = 0;
+
+    res->n = a->n;
+
+    for (i = 0; number > 0; number /= 10, i++)
+    {
+        int multiplier = number % 10;
+        // printf("mpler %d\n", multiplier);
+        int temp = 0;
+        for (j = 0; j < res->n; j++)
+        {
+            int multiplied = a->a[j] * multiplier;
+            // printf("mpled %d\n", multiplied);
+            res->a[j + i] += multiplied % 10 + temp;
+            if (res->a[j + i] > 0)
+                res->n = MAX(res->n, i + j + 1);
+            // printf("rslt %d\n", multiplied % 10 + temp);
+            temp = multiplied / 10;
+        }
+
+        if (temp > 0) {
+            res->a[j + i] += temp;
+            res->n++;
+        }
+    }
+
+    for (i = 0; i < res->n; i++)
+    {
+        // printf("%d ", res->a[i]);
+        res->a[i + 1] += res->a[i] / 10;
+        res->a[i] = res->a[i] % 10;
+        // printf("%d\n", res->a[i]);
+    }
 }
 
-int main() {
-    struct Student students[4] = {{"Fomenko Mikhail", 131, {5, 5, 5, 0, 0}}, {"Landau Lev", 051, {3, 4, 4, 3, 5}}, {"Tolstoy Lev", 512, {4, 5, 5, 5, 0}}, {"Evgeniy Onegin", 512, {4, 5, 5, 5, 0}}};
+int main()
+{
+    unsigned int n;
+    scanf("%u", &n);
+    Decimal a;
+    a.n = 0;
+    int i;
+    for (; a.n < n;)
+    {
+        char c;
+        scanf("%c", &c);
+        if (isdigit(c))
+        {
+            a.a[n - a.n - 1] = c - '1' + 1;
+            a.n++;
+        }
+    }
 
-    qsort(students, 4, sizeof(struct Student), comparator);
+    unsigned int m;
+    scanf("%u", &m);
 
-    int i = 0;
-    for (i = 0; i < 4; i++) {
-        printf("%s\n", students[i].initials);
+    Decimal res;
+    mul(&res, &a, m);
+
+    for (i = res.n - 1; i >= 0; i--)
+    {
+        printf("%d", res.a[i]);
     }
     return 0;
 }

@@ -1,7 +1,5 @@
-#include "7.h"
-
-void mul(struct Complex z1, struct Complex z2, struct Complex *z3) {
-    z3 -> a = z1.a * z2.a - z1.b * z2.b;
-    z3 -> b = z1.a * z2.b + z1.b * z2.a;
+void mul(float a1, float b1, float a2, float b2, float *a3, float *b3) {
+    *a3 = a1 * a2 - b1 * b2;
+    *b3 = a1 * b2 + b1 * a2;
     return;
 }

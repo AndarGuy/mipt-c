@@ -1,23 +1,15 @@
 #include <stdio.h>
 
 int main() {
-    int n;
-    const int length = 10000;
-    scanf("%d", &n);
+    int c = 0, s = 0;
 
-    int a[length];
-    for(int i = 0; i < length; i++) a[i] = 0;
-
-    int temp;
-    for(int i = 0; i < n; i++) {
-        scanf("%d", &temp);
-        a[temp]++;
+    int x;
+    while (scanf("%d", &x)) {
+        c++;
+        s+=x;
     }
 
-    printf("result: ");
-    for (int i = 0; i < length; i++) {
-        if (a[i] > 0) printf("%d ", i);
-    }
+    printf("sum = %d, count = %d", s, c);
 
     return 0;
 }

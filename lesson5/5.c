@@ -1,48 +1,33 @@
-// Дана матрица. Найти транспонированную, не используя дополнительный массив.
-
 #include <stdio.h>
+#include <stdbool.h>
+#include <math.h>
 
-void display(int matrix[10][10], int height, int width) {
-    printf("Результат:\n");
-    int i, j;
-    for (i = 0; i < height; i++) {
-        for (j = 0; j < width; j++) {
-            printf("%d ", matrix[i][j]);
-        }
-        printf("\n");
-    }
-}
+struct point {
+    float x, y;
+};
 
-void input(int matrix[10][10], int height, int width) {
-    int i, j;
-    for (i = 0; i < height; i++) 
-        for (j = 0; j < width; j++) 
-            scanf("%d", &matrix[i][j]);
-}
+struct circle {
+    float radius;
+    struct point center;
+};
 
-void reverse_diagonals(int matrix[10][10], int columns, int rows) {
-    int i, temp;
-    for (i = 0; i < rows / 2; i++) {
-        temp = matrix[i][i];
-        matrix[i][i] = matrix[columns - i - 1][columns - i - 1];
-        matrix[columns - i - 1][columns - i - 1] = temp;
-    }
-    for (i = 0; i < rows / 2; i++) {
-        temp = matrix[i][columns - i - 1];
-        matrix[i][columns - i - 1] = matrix[columns - i - 1][i];
-        matrix[columns - i - 1][i] = temp;
-    }
+bool inCircle(struct circle circle, struct point point) {
+    return sqrt(pow(point.x - circle.center.x, 2) + pow(point.y - circle.center.y, 2)) <= circle.radius; 
 }
 
 int main() {
-    int a, b;
-    scanf("%d%d", &a, &b);
-    int matrix[10][10];
-    input(matrix, a, b);
+struct point point;
+struct circle c1;
+struct circle c2;
 
-    reverse_diagonals(matrix, a, b);
+scanf("%f %f %f %f %f %f %f %f", &point.x, &point.y, &c1.center.x, &c1.center.y, &c1.radius, &c2.center.x, &c2.center.y, &c2.radius);
 
-    display(matrix, a, b);
-
-    return 0;
+if (inCircle(c1, point)) {
+    if (inCircle(c2, point)) {
+        puts("In both circles.");
+    } else {
+        puts("In one circle.");
+    }
+}
+return 0;
 }

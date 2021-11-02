@@ -1,26 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 int main() {
-    int length;
-    scanf("%d", &length);
-
-    int a[length];
-    for(int i = 0; i < length; i++) scanf("%d", &a[i]);
-
-    int p = 1, corrupted = 0;
-    for (int i = 1; i < length; i++) {
-        if (p > 0) p *= a[i] - a[i - 1];
-        if (p <= 0) {
-            if (!corrupted) {
-                p = -1;
-                corrupted = 1;
-            }
-            else p--;
-        }
+    int i = 0;
+    int current = 1;
+    for (i = 0; i < 10; i++) {
+        printf("%d\n", 9 * current + i + 1);
+        current = current * 10 + i + 1;
     }
-
-    printf("p = %d", abs(p));
-
     return 0;
 }

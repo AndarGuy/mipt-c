@@ -1,24 +1,35 @@
-/*
-Напечатайте входную последовательность целых чисел, 
-отсортировав ее по возрастанию с помощью стандартной функции 
-языка с qsort.
-*/
-
 #include <stdio.h>
-#include <stdlib.h>
 
-#define TASK "2"
+struct Date {
+    int month;
+    int year;
+};
 
-int comparator(const void *a, const void *b) {
-    return *(int*)a - *(int*)b;
+void input(struct Date *date) {
+    printf("Введите дату в формате месяц/год: ");
+    int month, year;
+    scanf("%d/%d", &month, &year);
+    date -> month = month;
+    date -> year = year;
+    return;
+}
+
+int check(struct Date dates[]) {
+    if (dates[0].year <= dates[1].year && dates[1].year <= dates[2].year) {
+        if (dates[0].month <= dates[1].month && dates[1].month <= dates[2].month) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int main() {
-    int N, i;
-    scanf("%d", &N);
-    int a[100];
-    for (i = 0; i < N; i++) scanf("%d", &a[i]);
-    qsort(a, N, sizeof(int), comparator);
-    for (i = 0; i < N; i++) printf("%d ", a[i]);
+    struct Date dates[3] = {{01, 2020}, {}, {06, 2020}}; 
+
+    input(&dates[1]);
+    
+    if (check(dates)) printf("Дата входит в диапазон с 01.20 по 06.20");
+    else printf("Дата не входит в диапазон с 01.20 по 06.20");
+    
     return 0;
 }

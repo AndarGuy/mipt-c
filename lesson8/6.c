@@ -1,28 +1,39 @@
-/*
-
-*/
+// Дана матрица. Найти транспонированную, не используя дополнительный массив.
 
 #include <stdio.h>
-#include <string.h>
 
-#define TASK "6"
-#define AUTHOR "fomenko.ms"
+void display(int matrix[10][10], int height, int width) {
+    printf("Результат:\n");
+    int i, j;
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
 
-#define MIN(a, b) a > b ? b : a
-#define MAX(a, b) -MIN(-a, -b);
+void zerofy(int matrix[10][10], int N, int M) {
+    int i, j;
+    for (i = 0; i < M; i++) {
+        for (j = 0; j < i + 2 && j < N; j++) {
+            matrix[i][j] = 0;
+        }
+    }
+}
 
 int main() {
-    FILE *fileA = fopen(TASK "_a.txt", "r");
+    int N, M;
+    scanf("%d%d", &N, &M);
+    int matrix[10][10];
+    int i, j;
+    for (i = 0; i < N; i++) 
+        for (j = 0; j < N; j++) 
+            matrix[i][j] = 1;
 
-    char s[1000];
-    int i = 0;
-    
-    while(!feof(fileA)) {
-        fscanf(fileA, "%c", s + i);
-        i++;
-    }
+    zerofy(matrix, N, M);
 
-    printf("%s", s);
+    display(matrix, N, N);
 
     return 0;
 }

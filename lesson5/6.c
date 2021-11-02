@@ -1,39 +1,51 @@
-// Дана матрица. Найти транспонированную, не используя дополнительный массив.
-
 #include <stdio.h>
+#include <math.h>
 
-void display(int matrix[10][10], int height, int width) {
-    printf("Результат:\n");
-    int i, j;
-    for (i = 0; i < height; i++) {
-        for (j = 0; j < width; j++) {
-            printf("%d ", matrix[i][j]);
-        }
-        printf("\n");
-    }
+struct Point {
+    int x;
+    int y;
+};
+
+struct Rect {
+    struct Point lt;
+    struct Point rb;
+};
+
+struct Rect rotate(struct Rect rect) {
+    struct Rect nRect;
+    nRect.rb.x = -rect.lt.x;
+    nRect.rb.y = -rect.lt.y;
+    nRect.lt.x = -rect.rb.x;
+    nRect.lt.y = -rect.rb.y;
 }
 
-void zerofy(int matrix[10][10], int N, int M) {
-    int i, j;
-    for (i = 0; i < M; i++) {
-        for (j = 0; j < i + 2 && j < N; j++) {
-            matrix[i][j] = 0;
-        }
-    }
+struct Rect mirrorY(struct Rect rect) {
+    struct Rect nRect;
+    nRect.lt.x = -rect.rb.x;
+    nRect.rb.x = -rect.lt.x;
+    nRect.lt.y = rect.lt.y;
+    nRect.rb.y = rect.rb.y;
+    return nRect;
+}
+
+struct Rect mirrorX(struct Rect rect) {
+    struct Rect nRect;
+    nRect.rb.y = -rect.lt.y;
+    nRect.lt.y = -rect.rb.y;
+    nRect.rb.x = rect.rb.x;
+    nRect.lt.x = rect.lt.x;
+    return nRect;
 }
 
 int main() {
-    int N, M;
-    scanf("%d%d", &N, &M);
-    int matrix[10][10];
-    int i, j;
-    for (i = 0; i < N; i++) 
-        for (j = 0; j < N; j++) 
-            matrix[i][j] = 1;
-
-    zerofy(matrix, N, M);
-
-    display(matrix, N, N);
-
+    struct Rect rect;
+    scanf("%d %d %d %d", &rect.lt.x, &rect.lt.y, &rect.rb.x, &rect.rb.y);
+    struct Rect mY = mirrorY(rect);
+    printf("Mirrored by Y: %d %d %d %d\n", mY.lt.x, mY.lt.y, mY.rb.x, mY.rb.y);
+    struct Rect mX = mirrorX(rect);
+    printf("Mirrored by X: %d %d %d %d\n", mX.lt.x, mX.lt.y, mX.rb.x, mX.rb.y);
+    struct Rect mR = mirrorX(mirrorY(rect));
+    printf("Rotated: %d %d %d %d\n", mR.lt.x, mR.lt.y, mR.rb.x, mR.rb.y);
+    
     return 0;
 }

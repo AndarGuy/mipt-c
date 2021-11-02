@@ -1,8 +1,5 @@
-#include "7.h"
-
-void div(struct Complex z1, struct Complex z2, struct Complex *z3) {
-    z3 -> a = (z1.a * z2.a + z1.b * z2.b) / (z2.a * z2.a + z2.b * z2.b);
-    z3 -> b = (z1.b * z2.a - z1.a * z2.b) / (z2.a * z2.a + z2.b * z2.b);
+void div(float a, float b, float c, float d, float *e, float *f) {
+    *e = (a*c + b*d) / (c * c + d * d);
+    *f = (b*c - a*d) / (c*c + d*d);
     return;
 }
-
