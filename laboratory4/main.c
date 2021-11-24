@@ -30,13 +30,16 @@ int main()
         printf("%2d %12lld %10d %10d %4d\n", i, bank[i].identification_number, bank[i].account, bank[i].amount, bank[i].code);
     }
 
-    printf("1\n");
+    // Переносим номера пользователей в зашифрованнцю базу данных
+    for (i = 0; i < N; i++) {
+        bank_ciphr[i].identification_number = bank[i].identification_number;
+    }
+
     account_encryption(N, bank, bank_ciphr, cipher);
-    printf("2\n");
+
     amount_encryption (N, bank, bank_ciphr, cipher);
-    printf("3\n");
+
     code_encryption   (N, bank, bank_ciphr, cipher);
-    printf("4\n");
 
     printf("\nКлючи шифрования:\n");
     printf("%7s %8s %8s %8s\n", "Индекс", "key_1", "key_2", "key_3");
@@ -53,11 +56,6 @@ int main()
     
     decryption(N, bank_ciphr, bank_new, cipher, &total_balance);
 
-    printf("Печать total_balance:\n");
-    for (i = 0; i < 5; i++){
-        printf("%10d %10d\n", total_balance.currency_start[i], total_balance.currency_cipher[i]);
-    }
-
 
 
     if (verification(N, bank, bank_new) == 0) {
@@ -65,16 +63,17 @@ int main()
         return 0;
     }
 
-    // if (check(&total_balance) == 0) {
-    //     printf("Stopped because of check function\n");
-    //     return 0;
-    // }
+    if (check(&total_balance) == 0) {
+        printf("Stopped because of check function\n");
+        return 0;
+    }
 
-    // printf("\n:\n");
-    // printf("%13s %15s %4s %9s %15s\n", "Наименование", "Буквенный код", "Код", "Исходный", "Востановленный");
-    // for (i = 0; i < 5; i++){
-    //     printf("%13s %15s %4d %9d %15d\n", val[i].currency_name, val[i].leter_code, val[i].currency_code, total_balance.currency_start[i], total_balance.currency_cipher[i]);
-    // }
+    printf("\n");
+    printf("Получение total_balance:\n");
+    printf("%28s %27s %7s %17s %29s\n", "Наименование", "Буквенный код", "Код", "Исходный", "Востановленный");
+    for (i = 0; i < 5; i++){
+        printf("%16s %15s %4d %9d %15d\n", val[i].currency_name, val[i].leter_code, val[i].currency_code, total_balance.currency_start[i], total_balance.currency_cipher[i]);
+    }
 
     return 0;
 }
