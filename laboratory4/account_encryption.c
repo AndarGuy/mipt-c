@@ -27,9 +27,6 @@ int non_zero(long long int id) {
     return last_digit;
 }
 
-
-
-
 void account_encryption (int N, struct client * bank,  struct client * bank_ciphr, struct key *ciphr) {
 	int i = 0;
 	for (i = 0; i < N; i++) {

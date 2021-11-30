@@ -1,7 +1,6 @@
 #include "lab.h"
 
-void currency_reference(struct currency* val)
-{
+void currency_reference(struct currency* val) {
     for (int i = 0; i < 5; ++i) {
         scanf("%s", val[i].currency_name);
         scanf("%s", val[i].leter_code);
@@ -9,14 +8,12 @@ void currency_reference(struct currency* val)
     }
 }
 
-int find_code(int code, struct currency* val)
-{
+int find_code(int code, struct currency* val) {
     for (int i = 0; i < 5; ++i) {
         if (code == val[i].currency_code) {
             return i;
         }
     }
-
     return -1;
 }
 
@@ -40,9 +37,7 @@ void customer_base(int N, struct client* bank, struct currency* val, struct bala
                 total_balance->currency_start[idx] += bank[i].amount;
                 break;
             }
-            else {
-                printf("Currency code is incorrect. Please, repeat your input. \n");
-            }
+            else printf("Currency code is incorrect. Please, repeat your input. \n");
         }
     }
 }
