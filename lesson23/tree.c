@@ -206,13 +206,13 @@ char *get_arrow_by_direction(int direction) {
         if (direction > 3) return "࠼";
         else if (direction > 1) return "/";
         else if (direction > 1) return "᜵";
-        else return "ᛸ";
+        else return "^";
     } else {
         if (direction < -6) return "⼂";
         else if (direction < -3) return "⟍";
         else if (direction < -1) return "∖";
         // else if (direction < -1) return "〵";
-        else return "ᛸ";
+        else return "^";
     }
 }
 

@@ -35,9 +35,9 @@ int main() {
 
     printf("Is balanced? %d\n", tree_is_balanced(tree));
 
-    // printf("Deleting %d...\n", 9);
+    // printf("Deleting %d...\n", 5);
 
-    // tree_delete_node(tree, data_create(TYPE_INT, 9));
+    // tree_delete_node(tree, data_create(TYPE_INT, 5));
 
     // tree_print(tree, "%s ", to_string);
 
