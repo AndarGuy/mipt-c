@@ -121,7 +121,7 @@ void tree_add_node(Node **node, Node *child, int (*comparator)(Data, Data)) {
     if (*node == NULL) {
         if (DEBUG) printf(DEBUG_PREFIX "Tree node %p is NULL, so replacing the node.\n", node);
         *node = child;
-    } else if (comparator((*node)->data, child->data) < 0) {
+    } else if (comparator((*node)->data, child->data) <= 0) {
         // if (DEBUG) printf(DEBUG_PREFIX "Children array of node %p is full, so trying to find appropriate index to insert.\n", node);
         // int index = tree_children_search(*node, child, DIRECT, comparator);
         // if (DEBUG) printf(DEBUG_PREFIX "Approptiate place was found on index «%d», trying to insert in the child node\n", index);
@@ -180,8 +180,8 @@ bool tree_is_balanced(Node *node) {
     bool result = true;
     for (int i = 0; i < node->n_children; i++) {
         if (node->children[i] == NULL) {
-            for (int j = i + 1; j < node->n_children; j++) {
-                if (node->children[j] != NULL) return tree_depth(node->children[j], 0) < 2;
+            for (int j = 0; j < node->n_children; j++) {
+                if (i != j && node->children[j] != NULL) return tree_depth(node->children[j], 0) < 2;
             }
         }
         result = result && tree_is_balanced(node->children[i]);
@@ -208,9 +208,9 @@ char *get_arrow_by_direction(int direction) {
         else if (direction > 1) return "᜵";
         else return "^";
     } else {
-        if (direction < -6) return "⼂";
-        else if (direction < -3) return "⟍";
-        else if (direction < -1) return "∖";
+        // if (direction < -6) return "⼂";
+        // else if (direction < -3) return "⟍";
+        if (direction < -1) return "\\";
         // else if (direction < -1) return "〵";
         else return "^";
     }
@@ -219,16 +219,15 @@ char *get_arrow_by_direction(int direction) {
 void tree_fill_display(Node *node, int height, int width, Data display[height][width], int left, int right, int layer, int direction) {
     if (node == NULL) return;
     int middle = (right + left) / node->n_children;
-    printf("%d %d %d\n", layer, middle, direction);
     display[layer * 2][middle] = node->data;
-    display[layer * 2 - 1][(middle + (direction > 0 ? right : left)) / 2 + (abs(direction) == 1 ? direction : 0)] = data_create(TYPE_STRING, get_arrow_by_direction(direction));
+    display[layer * 2 - 1][middle + (direction == 0 ? 0 : direction > 0 ? MIN(1, direction) : MAX(-1, direction))] = data_create(TYPE_STRING, get_arrow_by_direction(direction));
     tree_fill_display(node->children[0], height, width, display, left, middle, layer + 1, (middle - left) / 2);
     tree_fill_display(node->children[1], height, width, display, middle, right, layer + 1, (middle - right) / 2);
 }
 
 void tree_display(Node *root) {
     int depth = tree_depth(root, 0);
-    int height = 2 * depth, width = pow(2, depth);
+    int height = 2 * depth - 1, width = pow(2, depth);
     Data display[height][width];
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
@@ -238,9 +237,23 @@ void tree_display(Node *root) {
     tree_fill_display(root, height, width, display, 0, width, 0, false);
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            if (display[i][j].type != TYPE_CUSTOM) data_print(display[i][j]);
+            if (display[i][j].type != TYPE_CUSTOM) data_print_custom(display[i][j], data_to_string, "", "");
             else printf(" ");
         }
         printf("\n\n");
     }
+}
+
+void tree_print_properties(Node *tree) {
+
+    printf("---Properties---\n");
+
+    printf("Tree head node address: %p\n", tree);
+
+    int depth = tree_depth(tree, 0);
+    
+    printf("Tree depth: %d\n", depth);
+
+    printf("Balanced: %s\n", tree_is_balanced(tree) ? "YES" : "NO");
+    
 }

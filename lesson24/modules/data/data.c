@@ -1,12 +1,11 @@
 #include "data.h"
 
-int data_compatible(Data a, Data b) {
+int data_same_size(Data a, Data b) {
 	return a.size == b.size ? 1 : 0;
 }
 
 int data_is_equal(Data a, Data b) {
-    if (!data_compatible(a, b)) {
-        printf("Comparing incompariable data!\n");
+    if (!data_same_size(a, b)) {
         return 0;
     }
 
@@ -79,23 +78,36 @@ Data data_create(Type type, ...) {
     } else if (type == TYPE_CUSTOM) {
         size_t size = va_arg(arguments, size_t);
         return (Data) {va_arg(arguments, void*), size, type};
+    } else if (type == TYPE_NULL) {
+        return (Data) {NULL, 0, type};
     }
+    #ifdef PAIR_H
+    else if (type == TYPE_PAIR) {
+        Pair *pointer = malloc(sizeof(Pair));
+        *pointer = va_arg(arguments, Pair);
+        return (Data) {pointer, sizeof(Pair), TYPE_PAIR};
+    }
+    #endif
 
-    va_end(arguments);
-
-    return (Data) {NULL, 1, TYPE_CUSTOM};
+    return (Data) {va_arg(arguments, void*), 1, type};
 }
 
 void data_print(Data data) {
-    data_print_custom(data, data_to_string, " ", "");
+    data_print_custom(data, data_to_string, "");
 }
 
 void data_println(Data data) {
-    data_print_custom(data, data_to_string, "", "\n");
+    data_print_custom(data, data_to_string, "\n");
 }
 
-void data_print_custom(Data data, char* (*to_string)(Data), char *sep, char *end) {
-    printf("%s%s%s", to_string(data), sep, end);
+void data_print_custom(Data data, char* (*to_string)(Data), char *end) {
+    printf("%s%s", data_to_string_custom(data, to_string), end);
+}
+
+char *data_to_string_custom(Data data, char* (*to_string)(Data)) {
+    char *string = to_string(data);
+    if (string == NULL) return data_to_string(data);
+    return string;
 }
 
 char *data_to_string(Data data) {
@@ -108,23 +120,30 @@ char *data_to_string(Data data) {
             sprintf(result, "%d", *((int*) data.data));
             break;
         case TYPE_CHAR:
-            sprintf(result, "%c", *((char*) data.data));
+            sprintf(result, "'%c'", *((char*) data.data));
             break;
         case TYPE_LONG:
-            sprintf(result, "%ld", *((long*) data.data));
+            sprintf(result, "%ldL", *((long*) data.data));
             break;
         case TYPE_FLOAT:
-            sprintf(result, "%f", *((float*) data.data));
+            sprintf(result, "%ff", *((float*) data.data));
             break;
         case TYPE_DOUBLE:
-            sprintf(result, "%lf", *((double*) data.data));
+            sprintf(result, "%lfD", *((double*) data.data));
             break;
         case TYPE_STRING:
-            sprintf(result, "%s", (char*) data.data);
+            sprintf(result, "\"%s\"", (char*) data.data);
             break;
         case TYPE_BOOLEAN:
             if (*((bool*) data.data)) sprintf(result, "%s", "true");
             else sprintf(result, "%s", "false");
+            break;
+        #ifdef PAIR_H
+        case TYPE_PAIR:
+            return pair_to_string(pair_from_data(data.data));
+        #endif
+        case TYPE_NULL:
+            sprintf(result, "%s", "NULL");
             break;
         case TYPE_CUSTOM:
         default:

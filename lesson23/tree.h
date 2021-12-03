@@ -10,7 +10,7 @@
 
 #define DEFAULT_N_CHILDREN 2
 
-#define DEBUG 1
+#define DEBUG 0
 #define DEBUG_PREFIX "[TREE] "
 
 enum BypassType {
@@ -63,5 +63,7 @@ bool tree_is_balanced(Node *node);
 void tree_level_print(Node *node, int N);
 
 void tree_display(Node *root);
+
+void tree_print_properties(Node *node);
 
 #endif

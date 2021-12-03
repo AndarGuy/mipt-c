@@ -23,17 +23,13 @@ int main() {
         tree_add_node(&tree, tree_create(data_create(TYPE_INT, temp)), comparator);
     }
 
-    tree_print(tree, "%s ", to_string);
+    // tree_print(tree, "%s ", to_string);
 
-    printf("\n");
+    // printf("\n");
 
-    printf("-----\n");
+    printf("\n\n-----\n\n");
 
-    printf("Tree depth: %d\n", tree_depth(tree, 0));
-
-    printf("-----\n");
-
-    printf("Is balanced? %d\n", tree_is_balanced(tree));
+    // printf("Is balanced? %d\n", tree_is_balanced(tree));
 
     // printf("Deleting %d...\n", 5);
 
@@ -45,11 +41,17 @@ int main() {
 
     // printf("Is balanced? %d\n", tree_is_balanced(tree));
 
-    tree_level_print(tree, 3);
-
-    printf("\n");
-
     tree_display(tree);
+
+    tree_print_properties(tree);
+
+    printf("Input the layer to print: ");
+    int layer;
+    scanf("%d", &layer);
+
+    printf("Printing layer №%d: ", layer);
+
+    tree_level_print(tree, layer);
 
     return 0;
 }
