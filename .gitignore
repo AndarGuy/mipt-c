@@ -1,11 +1,2 @@
-*
-
-!*/
-
-!*.c
-!*.cc
-!*.txt
-!*.py
-!*.h
-!*.md
-!.gitignore
+.vscode/
+.DS_Store/
