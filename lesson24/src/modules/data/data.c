@@ -15,24 +15,24 @@ int data_is_equal(Data a, Data b) {
     return 1;
 }
 
-int data_compare(Data a, Data b) {
-    int t1 = 0;
-    long t2 = 0;
-    char t3 = 0;
-    bool t4 = 0;
-    float t5 = 0;
-    double t6 = 0;
-    if (a.type == TYPE_STRING || b.type == TYPE_STRING) {
-        return strcmp(data_to_string(a), data_to_string(b));
-    } else if (a.type == TYPE_CUSTOM || b.type == TYPE_CUSTOM) {
-        return a.size - b.size;
-    } else {
-        if (a.type == TYPE_INT) {
-            int i = data_as_int(a);
-        }
-    }
-    return 0;
-}
+// int data_compare(Data a, Data b) {
+//     int t1 = 0;
+//     long t2 = 0;
+//     char t3 = 0;
+//     bool t4 = 0;
+//     float t5 = 0;
+//     double t6 = 0;
+//     if (a.type == TYPE_STRING || b.type == TYPE_STRING) {
+//         return strcmp(data_to_string(a), data_to_string(b));
+//     } else if (a.type == TYPE_CUSTOM || b.type == TYPE_CUSTOM) {
+//         return a.size - b.size;
+//     } else {
+//         if (a.type == TYPE_INT) {
+//             int i = data_as_int(a);
+//         }
+//     }
+//     return 0;
+// }
 
 Data data_clone(Data src) {
     char *a = malloc(src.size);
@@ -153,6 +153,7 @@ char *data_to_string(Data data) {
 
     return result;
 }
+
 
 #define DATA_TO(type) \
     type data_as_##type (Data value) { \

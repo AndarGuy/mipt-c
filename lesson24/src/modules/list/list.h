@@ -7,9 +7,9 @@
  * @brief Declaration of list chain element.
  * 
  */
-typedef struct list {
+typedef struct List {
 	Data data;
-	struct list *next;
+	struct List *next;
 } *List;
 
 /**

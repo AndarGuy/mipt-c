@@ -7,6 +7,13 @@
 #include <stdarg.h>
 #include <string.h>
 
+#define INT(value) data_create(TYPE_INT, value)
+#define FLOAT(value) data_create(TYPE_FLOAT, value)
+#define STRING(value) data_create(TYPE_STRING, value)
+#define CHAR(value) data_create(TYPE_CHAR, value)
+#define DOUBLE(value) data_create(TYPE_DOUBLE, value)
+#define LONG(value) data_create(TYPE_DOUBLE, value)
+
 // extentions
 // #include "pair/pair.h"
 

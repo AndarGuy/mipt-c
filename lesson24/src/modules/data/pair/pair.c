@@ -7,7 +7,7 @@ void pair_swap(Pair pair) {
 }
 
 Pair pair_create(Data key, Data value) {
-    Pair created = (Pair) malloc(sizeof(Pair));
+    Pair created = (Pair) malloc(sizeof(struct Pair));
     created->key = key;
     created->value = value;
     return created;
@@ -22,9 +22,9 @@ char *pair_to_string(Pair pair) {
 }
 
 char *pair_to_string_custom(Pair pair, char* (*to_string)(Data)) {
-    char *key = data_to_string_custom(pair_get_key(pair), to_string);
-    char *value = data_to_string_custom(pair_get_value(pair), to_string);
-    int string_length = strlen(key) + strlen(value) + strlen("(, )");
+    char *key = to_string(pair_get_key(pair));
+    char *value = to_string(pair_get_value(pair));
+    int string_length = strlen(key) + strlen(value) + strlen("(, )") + 1;
     char *string = (char*) malloc(string_length);
     sprintf(string, "(%s, %s)", key, value);
     return string;

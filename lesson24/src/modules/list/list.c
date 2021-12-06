@@ -1,7 +1,7 @@
 #include "list.h"
 
 List list_create(Data data, List next) {
-    List inserted = (List) malloc(sizeof(List));
+    List inserted = (List) malloc(sizeof(struct List));
     inserted->data = data;
     inserted->next = next;
     return inserted;
