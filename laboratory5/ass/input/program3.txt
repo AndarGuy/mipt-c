@@ -1,0 +1,21 @@
+struct Node{
+	int number;
+	struct Node_int* next_int;
+};
+
+struct Node new[4];
+int p;
+scanf("%d",&p);
+if (p>0)
+{
+new[0].number=3*2^4-9/(9-7);        
+new[1].number=3*2^(5-9/(9-7));       
+new[2].number=(3*2)^4-9/(9-7);       
+new[3].number=3^2^(4-9/6-1);        
+}
+else 
+{new[0].number=((3+4)^2+(3+2)^3)/(2+4/2);       
+new[1].number=(3+4^2+(3+2)^3)/(2+4/2);          
+new[2].number=((3+4)^2+3+2^3)/(2+4/2);          
+new[3].number=((3+4)^2+(3+2)^3)/2+4/2;          
+}

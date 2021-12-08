@@ -1,0 +1,15 @@
+int d,s,p;
+scanf("%d%d%d",&d,&s,&p);
+switch (d){
+case 1:
+p=(-7+4/3)/3/2;
+break;
+case 2:
+p=9/(1+(2+3)/2);
+break;
+case 3:
+p=2*3^3+2^2*5+6*3^4;
+break;
+default:
+p=1+6;
+}
